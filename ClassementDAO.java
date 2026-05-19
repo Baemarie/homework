@@ -14,6 +14,11 @@ public class ClassementDAO {
         this.conn = DatabaseConnection.getInstance().getConnection();
     }
 
+        // Récupère tous les classements (alias pour getTous())
+        public List<Classement> getTous() {
+            return getClassement();
+        }
+
     // Récupère le classement trié (points DESC, diff buts DESC, buts pour DESC)
     public List<Classement> getClassement() {
         List<Classement> liste = new ArrayList<>();

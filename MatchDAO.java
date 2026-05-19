@@ -30,6 +30,26 @@ public class MatchDAO {
         return false;
     }
 
+        public boolean modifier(Match match) {
+            String sql = "UPDATE match_foot SET equipe_domicile_id=?, equipe_exterieur_id=?, date_match=?, journee=?, phase=?, buts_domicile=?, buts_exterieur=?, statut=? WHERE id=?";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, match.getEquipeDomicileId());
+                ps.setInt(2, match.getEquipeExterieurId());
+                ps.setTimestamp(3, match.getDateMatch() != null ?
+                    new Timestamp(match.getDateMatch().getTime()) : null);
+                ps.setInt(4, match.getJournee());
+                ps.setString(5, match.getPhase());
+                ps.setInt(6, match.getButsDomicile());
+                ps.setInt(7, match.getButsExterieur());
+                ps.setString(8, match.getStatut());
+                ps.setInt(9, match.getId());
+                return ps.executeUpdate() > 0;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
     public boolean saisirResultat(int matchId, int butsDomicile, int butsExterieur) {
         String sql = "UPDATE match_foot SET buts_domicile=?, buts_exterieur=?, statut='Terminé' WHERE id=?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
